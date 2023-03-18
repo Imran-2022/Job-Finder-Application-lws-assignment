@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { editJob, fetchJob } from '../features/jobs/jobsSlice';
 import { useNavigate, useParams } from 'react-router-dom';
+import { filterBySearch, filterByType } from '../features/filter/filterByTypeSearchSaralySlice';
 
 const EditForm = () => {
     const {editId}=useParams()
@@ -42,6 +43,8 @@ const EditForm = () => {
                 },
             })
         );
+        dispatch(filterByType('all'));
+        dispatch(filterBySearch(''))
         navigate('/')
     };
     return (
