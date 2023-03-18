@@ -11,7 +11,7 @@ function App() {
       <NavigationBar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/edit/:id' element={<EditJobs/>}/>
+        <Route path='/edit/:editId' element={<EditJobs/>}/>
         <Route path='/add' element={<AddNewJobs/>}/>
       </Routes>
     </div>

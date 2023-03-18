@@ -1,15 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deleteJob, editActive } from '../features/jobs/jobsSlice';
+import { deleteJob } from '../features/jobs/jobsSlice';
 
 const Job = ({ job }) => {
     const { title, type, salary, deadline, id } = job;
     const dispatch=useDispatch();
-    const handleEdit=()=>{
-        dispatch(editActive(job))
-    }
-
     const handleDelete=()=>{
         dispatch(deleteJob(id))
     }
@@ -36,7 +32,7 @@ const Job = ({ job }) => {
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
                 <span className="hidden sm:block">
                     <Link to={`/edit/${id}`}>
-                        <button onClick={handleEdit} type="button" className="lws-edit btn btn-primary">
+                        <button type="button" className="lws-edit btn btn-primary">
                             <i className="fa-solid fa-pen text-gray-300 -ml-1 mr-2"></i>
                             Edit
                         </button>

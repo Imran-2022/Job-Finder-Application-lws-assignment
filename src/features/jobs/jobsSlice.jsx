@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addNewJob, getJobs,editJobs,deleteJobs } from "./jobsAPI";
+import { addNewJob, getJobs,editJobs,deleteJobs,getJob } from "./jobsAPI";
 
 const initialState = {
     jobs: [],
@@ -14,6 +14,12 @@ export const fetchJobs = createAsyncThunk("job/fetchJobs",
     async () => {
         const jobs = await getJobs();
         return jobs;
+    }
+);
+export const fetchJob = createAsyncThunk("job/fetchJob",
+    async ({editId}) => {
+        const job = await getJob(editId);
+        return job;
     }
 );
 
@@ -47,14 +53,14 @@ export const deleteJob = createAsyncThunk(
 const jobsSlice = createSlice({
     name: "jobs",
     initialState,
-    reducers: {
-        editActive: (state, action) => {
-            state.editing = action.payload;
-        },
-        editInActive: (state) => {
-            state.editing = {};
-        },
-    },
+    // reducers: {
+    //     editActive: (state, action) => {
+    //         state.editing = action.payload;
+    //     },
+    //     editInActive: (state) => {
+    //         state.editing = {};
+    //     },
+    // },
     extraReducers: (builder) => {
         builder
             .addCase(fetchJobs.pending, (state) => {
@@ -71,6 +77,21 @@ const jobsSlice = createSlice({
                 state.isError = true;
                 state.error = action.error?.message;
                 state.jobs = [];
+            })
+            .addCase(fetchJob.pending, (state) => {
+                state.isError = false;
+                state.isLoading = true;
+            })
+            .addCase(fetchJob.fulfilled, (state, action) => {
+                state.isError = false;
+                state.isLoading = false;
+                state.editing = action.payload;
+            })
+            .addCase(fetchJob.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.error?.message;
+                state.editing = {};
             })
             .addCase(createJob.pending, (state) => {
                 state.isError = false;

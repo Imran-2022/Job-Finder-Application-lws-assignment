@@ -23,3 +23,8 @@ export const deleteJobs = async (id) => {
     const response = axios.delete(`/jobs/${id}`);
     return response.data;
 };
+// get single job post !
+export const getJob = async (editId) => {
+    const response = await axios.get(`/jobs/${editId}`);
+    return response.data
+};

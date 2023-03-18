@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { editJob } from '../features/jobs/jobsSlice';
-import { useNavigate } from 'react-router-dom';
+import { editJob, fetchJob } from '../features/jobs/jobsSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditForm = () => {
+    const {editId}=useParams()
     // editing
     const { editing } = useSelector((state) => state.jobs);
     const dispatch=useDispatch();
     const navigate=useNavigate()
-
     const [editTitle, setEditTitle] = useState('')
     const [editType, setEditType] = useState('')
     const [editSalary, setEditSalary] = useState('')
-    const [editDeadline, setEditDeadline] = useState(null)
+    const [editDeadline, setEditDeadline] = useState(undefined)
 
+    const {deadline,id,salary,title,type}=editing||{};
+    
     useEffect(() => {
-        setEditTitle(editing?.title)
-        setEditType(editing?.type)
-        setEditSalary(editing?.salary)
-        setEditDeadline(editing?.deadline)
-        if(!editing?.id) navigate('/')
-    }, [editing])
-    // , type, salary, deadLine, id
-    // console.log(editTitle, editType, editSalary, editDeadline);
+        dispatch(fetchJob({editId}))
+    }, [editId])
+    
+    useEffect(()=>{
+        setEditTitle(title);
+        setEditType(type);
+        setEditSalary(salary);
+        setEditDeadline(deadline);
+    },[editing])
+
+
 
     const handleEdit = (e) => {
         e.preventDefault();
@@ -43,7 +48,7 @@ const EditForm = () => {
         <form className="space-y-6" onSubmit={handleEdit}>
             <div className="fieldContainer">
                 <label htmlFor="lws-JobTitle" className="text-sm font-medium text-slate-300">Job Title</label>
-                <select id="lws-JobTitle" name="lwsJobTitle" required value={editTitle}
+                <select id="lws-JobTitle" name="lwsJobTitle" required  value={editTitle ? editTitle : ''}
                     onChange={(e) => setEditTitle(e.target.value)}>
                     <option value={editTitle} hidden defaultValue>{editTitle}</option>
                     <option value="Software Engineer">Software Engineer</option>
@@ -65,7 +70,7 @@ const EditForm = () => {
 
             <div className="fieldContainer">
                 <label htmlFor="lws-JobType">Job Type</label>
-                <select id="lws-JobType" name="lwsJobType" required value={editType}
+                <select id="lws-JobType" name="lwsJobType" required  value={editType ? editType : ''}
                     onChange={(e) => setEditType(e.target.value)}>
                     <option value={editType} hidden defaultValue>{editType}</option>
                     <option>Full Time</option>
@@ -79,14 +84,14 @@ const EditForm = () => {
                 <div className="flex border rounded-md shadow-sm border-slate-600">
                     <span className="input-tag">BDT</span>
                     <input type="number" name="lwsJobSalary" id="lws-JobSalary" required className="!rounded-l-none !border-0"
-                        placeholder="20,00,000" value={editSalary}
+                        placeholder="20,00,000" value={editSalary?editSalary:''}
                         onChange={(e) => setEditSalary(e.target.value)} />
                 </div>
             </div>
 
             <div className="fieldContainer">
                 <label htmlFor="lws-JobDeadline">Deadline</label>
-                <input type="date" name="lwsJobDeadline" id="lws-JobDeadline" required value={editDeadline}
+                <input type="date" name="lwsJobDeadline" id="lws-JobDeadline" required value={editDeadline?editDeadline:''}
                     onChange={(e) => setEditDeadline(e.target.value)} />
             </div>
 
