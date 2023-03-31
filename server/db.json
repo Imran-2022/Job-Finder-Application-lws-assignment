@@ -1,0 +1,32 @@
+{
+  "jobs": [
+    {
+      "title": "Social Media Manager",
+      "type": "Internship",
+      "salary": "20000",
+      "deadline": "2022-11-31",
+      "id": 5
+    },
+    {
+      "title": "Full Stack Developer",
+      "type": "Full Time",
+      "salary": "18000",
+      "deadline": "2022-12-31",
+      "id": 7
+    },
+    {
+      "title": "Full Stack Developer",
+      "type": "Full Time",
+      "salary": "243",
+      "deadline": "2023-02-28",
+      "id": 8
+    },
+    {
+      "title": "MERN Stack Developer",
+      "type": "Remote",
+      "salary": "12412",
+      "deadline": "2023-03-03",
+      "id": 9
+    }
+  ]
+}
